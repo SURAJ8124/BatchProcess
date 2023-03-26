@@ -3,10 +3,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class Main {
@@ -21,18 +18,33 @@ public class Main {
         System.out.println(response.statusCode());
         System.out.println(body);
 
-        try{
+
+        int userId=1;
+        String userName="Harry";
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/FacebookApi","root","root@123");
-            Statement stmt=con.createStatement();
-            String sql1="UPDATE Users set name=? where faceBookId=?";
-            PreparedStatement stmt1=con.prepareStatement(sql1);
-            stmt1.setString(1,"robert bro");
-            stmt1.setInt(2,2);
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/FacebookApi", "root", "root@123");
+            Statement stmt = con.createStatement();
+            Statement statement = null;
+            statement = con.createStatement();
+            String sql = "SELECT * FROM Users";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int faceBookId = resultSet.getInt("faceBookId");
+                System.out.println(name + ", " + faceBookId);
+            }
+
+
+            String sql1 = "UPDATE Users set name=? where faceBookId=?";
+            PreparedStatement stmt1 = con.prepareStatement(sql1);
+            stmt1.setString(1, userName);
+            stmt1.setInt(2, userId);
             stmt1.executeUpdate();
             System.out.println("Data updated successFul !!!");
             stmt.close();
+            resultSet.close();
             con.close();
         }
         catch (Exception e){

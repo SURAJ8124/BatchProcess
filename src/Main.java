@@ -18,9 +18,9 @@ public class Main {
         System.out.println(response.statusCode());
         System.out.println(body);
 
+        int userId=6;
+        String userName="";
 
-        int userId=1;
-        String userName="Harry";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(
@@ -34,7 +34,15 @@ public class Main {
                 String name = resultSet.getString("name");
                 int faceBookId = resultSet.getInt("faceBookId");
                 System.out.println(name + ", " + faceBookId);
+//                for (int i=0; i< api.length; i++){
+//                    if (faceBookId==api[i].faceBookId){
+//                        userId=api[i].faceBookId;
+//                        userName=api[i].name;
+//                    }
+//                }
             }
+
+
 
 
             String sql1 = "UPDATE Users set name=? where faceBookId=?";
